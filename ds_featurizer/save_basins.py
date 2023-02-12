@@ -30,8 +30,8 @@ def save_basins(basin, im_num, feat, extents, labels, system):
     x_start, x_end, y_start, y_end, n_pixels = extents
     
     # Plot the image
-    fig = plt.figure(figsize=(6, 5), dpi=200)
-    image = plt.imshow(basin, origin='lower', aspect='auto',extent=[x_start, x_end, y_start, y_end])
+    fig = plt.figure(figsize=(6, 5), dpi=500)
+    image = plt.imshow(basin, origin='lower', aspect='auto',extent=[x_start, x_end, y_start, y_end], cmap='jet')
     cbar = plt.colorbar(image, format=ticker.FuncFormatter(fmt), ticks=np.linspace(np.min(basin), np.max(basin),5))
     cbar.ax.tick_params(labelsize=15)
     plt.title(fr"[{n_pixels}$\times${n_pixels}] - {feat[1]}", fontsize=30, pad=20)
