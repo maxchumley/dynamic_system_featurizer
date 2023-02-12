@@ -8,7 +8,7 @@ import numpy as np
 from ds_featurizer.parallel_sim import parallel_sims
 from ds_featurizer.save_basins import save_basins
 
-def generatebasin(parameters, t_range, limits, feat, system, timeseries=0):
+def generatebasin(parameters, variables, t_range, limits, feat, system, timeseries=0):
     """
     Import the parameter mesh, call the simulation functions, and save the basin images
     Args:
@@ -43,11 +43,14 @@ def generatebasin(parameters, t_range, limits, feat, system, timeseries=0):
     if type(system) != str:
         raise TypeError("system should be a string.")
 
+    init_params = []
     if timeseries == 0:
         for basin_num in range(int(len(parameters)/limits[4]**2)):
             print(f'Generating image {basin_num+1}...')
+            init_params.append(np.copy(parameters[0+(basin_num*limits[4]**2):((basin_num+1)*limits[4]**2)][0][0:-2]))
+            init_params[basin_num][0] = basin_num + 1
             res = np.array(
-                parallel_sims(parameters[0+(basin_num*limits[4]**2):((basin_num+1)*limits[4]**2)],
+                parallel_sims(parameters[0+(basin_num*limits[4]**2):((basin_num+1)*limits[4]**2)], variables,
                     t_range, feat))
             basins = [0]*res.shape[1]
 
@@ -64,6 +67,9 @@ def generatebasin(parameters, t_range, limits, feat, system, timeseries=0):
                                 limits, feat[2], system)
             del row, res, feature, basins, basin
             time.sleep(5)
+            
+        path_csv = os.path.join(os.getcwd(),os.path.join('Basin_'+system, 'parameters.csv'))
+        np.savetxt(path_csv, np.vstack([variables[0:-2], init_params]), delimiter=",", fmt='%s')
         # Remove the temporary parameter numpy files
         if os.path.exists(os.path.join(os.getcwd(),os.path.join('Basin_'+system, 'parameter_arrays'))):
             shutil.rmtree(os.path.join(os.getcwd(), os.path.join('Basin_'+system,'parameter_arrays')))

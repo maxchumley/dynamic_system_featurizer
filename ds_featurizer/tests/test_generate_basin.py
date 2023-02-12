@@ -60,8 +60,8 @@ def test_basin_creation():
         'Row': [1],
         'd': [0.15],
         'alpha': [-1.0],
-        'xo': np.linspace(x_start, x_end, pixels),
-        'yo': np.linspace(y_start, y_end, pixels),
+        'x0': np.linspace(x_start, x_end, pixels),
+        'y0': np.linspace(y_start, y_end, pixels),
     }
 
     # Create the vectorized parameter mesh for the variables
@@ -70,8 +70,7 @@ def test_basin_creation():
     # Extract the list of variables and parameters from the mesh
     variables = mesh[0]
     parameters = mesh[1]
-    generate_basin.generatebasin(parameters, t_range, limits, feat, system)
-
+    generate_basin.generatebasin(parameters, variables, t_range, limits, feat, system)
     assert os.path.exists(os.path.join(os.getcwd(),os.path.join('Basin_'+system, os.path.join('mean', str(1)+'.png')))) == True
 
 def test_bad_parameter_type():
@@ -117,8 +116,8 @@ def test_bad_parameter_type():
             'Row': [1],
             'd': [0.15],
             'alpha': [-1.0],
-            'xo': np.linspace(x_start, x_end, pixels),
-            'yo': np.linspace(y_start, y_end, pixels),
+            'x0': np.linspace(x_start, x_end, pixels),
+            'y0': np.linspace(y_start, y_end, pixels),
         }
 
         # Create the vectorized parameter mesh for the variables
@@ -127,7 +126,7 @@ def test_bad_parameter_type():
         # Extract the list of variables and parameters from the mesh
         variables = mesh[0]
         parameters = 10
-        generate_basin.generatebasin(parameters, t_range, limits, feat, system)
+        generate_basin.generatebasin(parameters, variables, t_range, limits, feat, system)
 
     assert "parameters needs to be a numpy array." in str(excinfo.value)
 
@@ -174,8 +173,8 @@ def test_bad_t_range_type():
             'Row': [1],
             'd': [0.15],
             'alpha': [-1.0],
-            'xo': np.linspace(x_start, x_end, pixels),
-            'yo': np.linspace(y_start, y_end, pixels),
+            'x0': np.linspace(x_start, x_end, pixels),
+            'y0': np.linspace(y_start, y_end, pixels),
         }
 
         # Create the vectorized parameter mesh for the variables
@@ -184,7 +183,7 @@ def test_bad_t_range_type():
         # Extract the list of variables and parameters from the mesh
         variables = mesh[0]
         parameters = mesh[1]
-        generate_basin.generatebasin(parameters, t_range, limits, feat, system)
+        generate_basin.generatebasin(parameters, variables, t_range, limits, feat, system)
 
     assert "t_range needs to be a list." in str(excinfo.value)
 
@@ -231,8 +230,8 @@ def test_bad_t_range_length():
             'Row': [1],
             'd': [0.15],
             'alpha': [-1.0],
-            'xo': np.linspace(x_start, x_end, pixels),
-            'yo': np.linspace(y_start, y_end, pixels),
+            'x0': np.linspace(x_start, x_end, pixels),
+            'y0': np.linspace(y_start, y_end, pixels),
         }
 
         # Create the vectorized parameter mesh for the variables
@@ -241,7 +240,7 @@ def test_bad_t_range_length():
         # Extract the list of variables and parameters from the mesh
         variables = mesh[0]
         parameters = mesh[1]
-        generate_basin.generatebasin(parameters, t_range, limits, feat, system)
+        generate_basin.generatebasin(parameters, variables, t_range, limits, feat, system)
 
     assert "t_range should contain only t_start and t_end." in str(excinfo.value)
 
@@ -288,8 +287,8 @@ def test_bad_limits_type():
             'Row': [1],
             'd': [0.15],
             'alpha': [-1.0],
-            'xo': np.linspace(x_start, x_end, pixels),
-            'yo': np.linspace(y_start, y_end, pixels),
+            'x0': np.linspace(x_start, x_end, pixels),
+            'y0': np.linspace(y_start, y_end, pixels),
         }
 
         # Create the vectorized parameter mesh for the variables
@@ -298,7 +297,7 @@ def test_bad_limits_type():
         # Extract the list of variables and parameters from the mesh
         variables = mesh[0]
         parameters = mesh[1]
-        generate_basin.generatebasin(parameters, t_range, limits, feat, system)
+        generate_basin.generatebasin(parameters, variables, t_range, limits, feat, system)
 
     assert "limits needs to be a list." in str(excinfo.value)
 
@@ -345,8 +344,8 @@ def test_bad_limits_length():
             'Row': [1],
             'd': [0.15],
             'alpha': [-1.0],
-            'xo': np.linspace(x_start, x_end, pixels),
-            'yo': np.linspace(y_start, y_end, pixels),
+            'x0': np.linspace(x_start, x_end, pixels),
+            'y0': np.linspace(y_start, y_end, pixels),
         }
 
         # Create the vectorized parameter mesh for the variables
@@ -355,7 +354,7 @@ def test_bad_limits_length():
         # Extract the list of variables and parameters from the mesh
         variables = mesh[0]
         parameters = mesh[1]
-        generate_basin.generatebasin(parameters, t_range, limits, feat, system)
+        generate_basin.generatebasin(parameters, variables, t_range, limits, feat, system)
 
     assert "limits should contain x_start, x_end, y_start, y_end, and number of pixels." in str(excinfo.value)
 
@@ -402,8 +401,8 @@ def test_bad_feat_type():
             'Row': [1],
             'd': [0.15],
             'alpha': [-1.0],
-            'xo': np.linspace(x_start, x_end, pixels),
-            'yo': np.linspace(y_start, y_end, pixels),
+            'x0': np.linspace(x_start, x_end, pixels),
+            'y0': np.linspace(y_start, y_end, pixels),
         }
 
         # Create the vectorized parameter mesh for the variables
@@ -412,7 +411,7 @@ def test_bad_feat_type():
         # Extract the list of variables and parameters from the mesh
         variables = mesh[0]
         parameters = mesh[1]
-        generate_basin.generatebasin(parameters, t_range, limits, feat, system)
+        generate_basin.generatebasin(parameters, variables, t_range, limits, feat, system)
 
     assert "feat needs to be a list." in str(excinfo.value)
 
@@ -459,8 +458,8 @@ def test_bad_feat_length():
             'Row': [1],
             'd': [0.15],
             'alpha': [-1.0],
-            'xo': np.linspace(x_start, x_end, pixels),
-            'yo': np.linspace(y_start, y_end, pixels),
+            'x0': np.linspace(x_start, x_end, pixels),
+            'y0': np.linspace(y_start, y_end, pixels),
         }
 
         # Create the vectorized parameter mesh for the variables
@@ -469,7 +468,7 @@ def test_bad_feat_length():
         # Extract the list of variables and parameters from the mesh
         variables = mesh[0]
         parameters = mesh[1]
-        generate_basin.generatebasin(parameters, t_range, limits, feat, system)
+        generate_basin.generatebasin(parameters, variables, t_range, limits, feat, system)
 
     assert "feat should contain a folder list, a key list, and axes labels." in str(excinfo.value)
 
@@ -516,8 +515,8 @@ def test_bad_feat_item_type():
             'Row': [1],
             'd': [0.15],
             'alpha': [-1.0],
-            'xo': np.linspace(x_start, x_end, pixels),
-            'yo': np.linspace(y_start, y_end, pixels),
+            'x0': np.linspace(x_start, x_end, pixels),
+            'y0': np.linspace(y_start, y_end, pixels),
         }
 
         # Create the vectorized parameter mesh for the variables
@@ -526,7 +525,7 @@ def test_bad_feat_item_type():
         # Extract the list of variables and parameters from the mesh
         variables = mesh[0]
         parameters = mesh[1]
-        generate_basin.generatebasin(parameters, t_range, limits, feat, system)
+        generate_basin.generatebasin(parameters, variables, t_range, limits, feat, system)
 
     assert "One or more items in feat is/are not of type list." in str(excinfo.value)
 
@@ -573,8 +572,8 @@ def test_bad_labels_length():
             'Row': [1],
             'd': [0.15],
             'alpha': [-1.0],
-            'xo': np.linspace(x_start, x_end, pixels),
-            'yo': np.linspace(y_start, y_end, pixels),
+            'x0': np.linspace(x_start, x_end, pixels),
+            'y0': np.linspace(y_start, y_end, pixels),
         }
 
         # Create the vectorized parameter mesh for the variables
@@ -583,7 +582,7 @@ def test_bad_labels_length():
         # Extract the list of variables and parameters from the mesh
         variables = mesh[0]
         parameters = mesh[1]
-        generate_basin.generatebasin(parameters, t_range, limits, feat, system)
+        generate_basin.generatebasin(parameters, variables, t_range, limits, feat, system)
 
     assert "labels should contain the x and y labels only." in str(excinfo.value)
 
@@ -630,8 +629,8 @@ def test_bad_system_type():
             'Row': [1],
             'd': [0.15],
             'alpha': [-1.0],
-            'xo': np.linspace(x_start, x_end, pixels),
-            'yo': np.linspace(y_start, y_end, pixels),
+            'x0': np.linspace(x_start, x_end, pixels),
+            'y0': np.linspace(y_start, y_end, pixels),
         }
 
         # Create the vectorized parameter mesh for the variables
@@ -641,7 +640,7 @@ def test_bad_system_type():
         variables = mesh[0]
         parameters = mesh[1]
         system = 20
-        generate_basin.generatebasin(parameters, t_range, limits, feat, system)
+        generate_basin.generatebasin(parameters, variables, t_range, limits, feat, system)
 
     assert "system should be a string." in str(excinfo.value)
 
@@ -688,8 +687,8 @@ def test_timeseries_error():
             'Row': [1],
             'd': [0.15],
             'alpha': [-1.0],
-            'xo': np.linspace(x_start, x_end, pixels),
-            'yo': np.linspace(y_start, y_end, pixels),
+            'x0': np.linspace(x_start, x_end, pixels),
+            'y0': np.linspace(y_start, y_end, pixels),
         }
 
         # Create the vectorized parameter mesh for the variables
@@ -698,7 +697,7 @@ def test_timeseries_error():
         # Extract the list of variables and parameters from the mesh
         variables = mesh[0]
         parameters = mesh[1]
-        generate_basin.generatebasin(parameters, t_range, limits, feat, system, timeseries=10)
+        generate_basin.generatebasin(parameters, variables, t_range, limits, feat, system, timeseries=10)
 
     assert "Experimental timeseries are not supported yet but will be added in a future update." in str(excinfo.value)
 

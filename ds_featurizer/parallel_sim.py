@@ -2,7 +2,7 @@
 Function to distribute simulations over the cores of the cpu in parallel using multiprocessing.
 """
 
-def parallel_sims(parameters, t_range, feat):
+def parallel_sims(parameters, variables, t_range, feat):
     """
     Function to distribute simulations over the cores of the cpu in parallel using multiprocessing.
     Args:
@@ -23,13 +23,12 @@ def parallel_sims(parameters, t_range, feat):
     # Distribute the parallel processes and print the progress bar
     with Pool(cores) as proc:
         res = list(tqdm.tqdm(proc.imap(sim_star,
-                               list(zip(parameters[:,0], repeat(t_range), repeat(feat[0])))),
+                               list(zip(parameters[:,0], repeat(variables), repeat(t_range), repeat(feat[0])))),
                                total=len(parameters)))
-        
+    proc.close()
     # Print the simulation time
     end_time = time.time() - start_time
     print(f"Processing {len(parameters)} simulations took {end_time} seconds.")
-    proc.close()
     return res
 
 def sim_star(row):

@@ -65,8 +65,7 @@ def create_mesh(variables):
         raise RuntimeError("Run folder_setup before creating the parameter mesh.")
     
     # Save the parameters as a csv and temporary individual numpy arrays
-    path_csv = os.path.join(os.getcwd(),os.path.join('Basin_'+system, 'parameters.csv'))
-    np.savetxt(path_csv, np.vstack([variables, parameters]), delimiter=",", fmt='%s')
+    
     path_np = os.path.join(os.getcwd(),os.path.join('Basin_'+system, 'parameter_arrays'))
     for param in parameters:
         np.save(os.path.join(path_np, str(int(param[0])) + '.npy'), param)

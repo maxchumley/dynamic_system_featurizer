@@ -1,4 +1,4 @@
-# #METABOLIC SYSTEM
+# #Duffing Oscillator
 using DifferentialEquations
 using Statistics
 
@@ -10,9 +10,13 @@ end
 
 
 function trajectory(p, t_start, t_end)
-    row, d, alpha, x0, y0 = p
+    row = p["Row"]
+    d = p["d"]
+    alpha = p["alpha"]
+    x0 = p["x0"]
+    y0 = p["y0"]
+    p = [row, d, alpha, x0, y0]
     u0 = [x0, y0]
-#     alg = MethodOfSteps(Tsit5())
     tspan = (0.0,t_end)
     dt = 0.1
     num_points = floor(Int, (t_end-t_start)/dt)
@@ -22,4 +26,3 @@ function trajectory(p, t_start, t_end)
     traj = [ts, sol(ts,idxs=1)[1,:], sol(ts,idxs=2)[1,:]]
     return traj
 end
-

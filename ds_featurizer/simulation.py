@@ -51,7 +51,7 @@ def features(data, times, feat='sd'):
     return basin
 
 
-def sim(p_num, t_range, feat):
+def sim(p_num, variables, t_range, feat):
     """
     Run the julia simulation code from python and obtain the features of the data.
     Args:
@@ -63,9 +63,12 @@ def sim(p_num, t_range, feat):
     path = os.path.join(os.getcwd(), os.path.join('Basin_'+sys,'parameter_arrays'))
     path = os.path.join(path, str(int(p_num))+'.npy')
     parameter = np.load(path)
+    parameter = [float(i) for i in parameter]
+    variables = [str(i) for i in variables]
     t_start = t_range[0]
     t_end = t_range[1]
-    sol = Main.trajectory(parameter, t_start, t_end)
+    parameter = dict(zip(variables,parameter))
+    sol = Main.trajectory(jl.convert(jl.PythonCall.Dict, parameter), t_start, t_end)
     sol = [sol[1], sol[2]]
     basin = features(sol, np.linspace(t_start, t_end, len(sol[0])), feat)
     return basin
@@ -74,6 +77,7 @@ if __name__ == '__main__':
     pass
 else:
     from juliacall import Main
+    import juliacall as jl
     if os.path.exists('system.npy'):
         sys = str(np.load('system.npy'))
         path = os.path.join(os.getcwd(), os.path.join('systems', sys+'.jl'))
