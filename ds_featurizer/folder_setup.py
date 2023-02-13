@@ -38,11 +38,11 @@ def folder_setup(folders, system):
             os.mkdir(os.path.join(os.getcwd(), os.path.join('Basin_'+system,folder)))
     
     # Create a temporary folder to store the individual parameter numpy arrays and remove it first if one exists already.
-    if not os.path.exists(os.path.join(os.getcwd(), os.path.join('Basin_'+system, 'parameter_arrays'))):
-        os.mkdir(os.path.join(os.getcwd(), os.path.join('Basin_'+system,'parameter_arrays')))
+    if not os.path.exists(os.path.join(os.getcwd(), os.path.join('Basin_'+system, '.parameter_arrays'))):
+        os.mkdir(os.path.join(os.getcwd(), os.path.join('Basin_'+system,'.parameter_arrays')))
     else:
-        shutil.rmtree(os.path.join(os.getcwd(), os.path.join('Basin_'+system,'parameter_arrays')))
-        os.mkdir(os.path.join(os.getcwd(), os.path.join('Basin_'+system,'parameter_arrays')))
+        shutil.rmtree(os.path.join(os.getcwd(), os.path.join('Basin_'+system,'.parameter_arrays')))
+        os.mkdir(os.path.join(os.getcwd(), os.path.join('Basin_'+system,'.parameter_arrays')))
     
     # Save the system name as a numpy array for the simulation functions to access 
     if os.path.exists('system.npy'):

@@ -60,7 +60,7 @@ def sim(p_num, variables, t_range, feat):
     Returns:
         basin -- Output of features function
     """
-    path = os.path.join(os.getcwd(), os.path.join('Basin_'+sys,'parameter_arrays'))
+    path = os.path.join(os.getcwd(), os.path.join('Basin_'+sys,'.parameter_arrays'))
     path = os.path.join(path, str(int(p_num))+'.npy')
     parameter = np.load(path)
     parameter = [float(i) for i in parameter]

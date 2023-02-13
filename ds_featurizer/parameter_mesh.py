@@ -4,6 +4,7 @@ Generate a vectorized mesh of parameter combinations based on the parameters dic
 
 import os.path
 import numpy as np
+from tqdm import tqdm
 from ds_featurizer import config
 
 def create_mesh(variables):
@@ -66,8 +67,9 @@ def create_mesh(variables):
     
     # Save the parameters as a csv and temporary individual numpy arrays
     
-    path_np = os.path.join(os.getcwd(),os.path.join('Basin_'+system, 'parameter_arrays'))
-    for param in parameters:
+    path_np = os.path.join(os.getcwd(),os.path.join('Basin_'+system, '.parameter_arrays'))
+    print(f"Saving {len(parameters)} individual parameter files...")
+    for param in tqdm(parameters):
         np.save(os.path.join(path_np, str(int(param[0])) + '.npy'), param)
     
     # Return the list of variables and parameters

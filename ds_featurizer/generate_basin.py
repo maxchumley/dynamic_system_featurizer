@@ -71,7 +71,7 @@ def generatebasin(parameters, variables, t_range, limits, feat, system, timeseri
         path_csv = os.path.join(os.getcwd(),os.path.join('Basin_'+system, 'parameters.csv'))
         np.savetxt(path_csv, np.vstack([variables[0:-2], init_params]), delimiter=",", fmt='%s')
         # Remove the temporary parameter numpy files
-        if os.path.exists(os.path.join(os.getcwd(),os.path.join('Basin_'+system, 'parameter_arrays'))):
-            shutil.rmtree(os.path.join(os.getcwd(), os.path.join('Basin_'+system,'parameter_arrays')))
+        if os.path.exists(os.path.join(os.getcwd(),os.path.join('Basin_'+system, '.parameter_arrays'))):
+            shutil.rmtree(os.path.join(os.getcwd(), os.path.join('Basin_'+system,'.parameter_arrays')))
     else:
         raise RuntimeError("Experimental timeseries are not supported yet but will be added in a future update.")
