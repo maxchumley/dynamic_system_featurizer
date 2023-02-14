@@ -4,7 +4,7 @@ Generate a vectorized mesh of parameter combinations based on the parameters dic
 
 import os.path
 import numpy as np
-from tqdm import tqdm
+from tqdm.notebook import tqdm
 from ds_featurizer import config
 
 def create_mesh(variables):

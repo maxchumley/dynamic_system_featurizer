@@ -15,7 +15,7 @@ def features(data, times, feat='sd'):
         times -- Array of time values for the data points
         feat -- List of features to be computed and returned
     Returns:
-        basin -- Array containing arrays for each basin computed to be saved as an image
+        feats -- Array containing arrays for each stability diagram computed to be saved as an image
     """
     if (type(data) != list) or (type(times) != np.ndarray) or (type(feat) != list):
         raise TypeError('One or more inputs to features is an incorrect type.')
@@ -23,17 +23,17 @@ def features(data, times, feat='sd'):
         raise ValueError("One or more empty inputs to features.")
     if np.shape(times) != (len(times),):
         raise ValueError("Time array does not have the correct shape.")
-    if np.shape(data) != (2, len(times)):
+    if np.shape(data)[1] != len(times):
         raise ValueError("The simulation data is not the correct shape. Did you mean to transpose?")
-    basin = []
+    feats = []
     
-    # Compute the requested features and append to the basin list
+    # Compute the requested features and append to the features list
     if 'sd' in feat:
         stdev = np.sum(np.std(data, axis=1))
-        basin.append(stdev)
+        feats.append(stdev)
     if 'mean' in feat:
         mean = np.sum(np.mean(data, axis=1))
-        basin.append(mean)
+        feats.append(mean)
     if 'maxh1' in feat:
         if len(data[0])>400:
             sample = int(len(data[0])/400)
@@ -44,11 +44,11 @@ def features(data, times, feat='sd'):
         pairs = diagrams[1]
         if len(pairs) > 0:
             lifetimes = pairs[:, 1] - pairs[:, 0]
-            basin_pers = np.max(lifetimes)
+            feat_pers = np.max(lifetimes)
         else:
-            basin_pers = 0
-        basin.append(basin_pers) 
-    return basin
+            feat_pers = 0
+        feats.append(feat_pers) 
+    return feats
 
 
 def sim(p_num, variables, t_range, feat):
@@ -58,7 +58,7 @@ def sim(p_num, variables, t_range, feat):
         parameter -- List containing one set of parameters for a single simulation.
         t_range -- List containing start and end time for the simulation
     Returns:
-        basin -- Output of features function
+        response_features -- Output of features function
     """
     path = os.path.join(os.getcwd(), os.path.join('Basin_'+sys,'.parameter_arrays'))
     path = os.path.join(path, str(int(p_num))+'.npy')
@@ -69,9 +69,9 @@ def sim(p_num, variables, t_range, feat):
     t_end = t_range[1]
     parameter = dict(zip(variables,parameter))
     sol = Main.trajectory(jl.convert(jl.PythonCall.Dict, parameter), t_start, t_end)
-    sol = [sol[1], sol[2]]
-    basin = features(sol, np.linspace(t_start, t_end, len(sol[0])), feat)
-    return basin
+    sol = list(sol[1:])
+    response_features = features(sol, np.linspace(t_start, t_end, len(sol[0])), feat)
+    return response_features
 
 if __name__ == '__main__':
     pass

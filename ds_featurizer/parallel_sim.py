@@ -22,7 +22,7 @@ def parallel_sims(parameters, variables, t_range, feat):
     
     # Distribute the parallel processes and print the progress bar
     with Pool(cores) as proc:
-        res = list(tqdm.tqdm(proc.imap(sim_star,
+        res = list(tqdm(proc.imap(sim_star,
                                list(zip(parameters[:,0], repeat(variables), repeat(t_range), repeat(feat[0])))),
                                total=len(parameters)))
     proc.close()
@@ -43,7 +43,7 @@ else:
     import time
     import numpy as np
     from multiprocessing import Pool
-    import tqdm
+    from tqdm.notebook import tqdm
     from itertools import repeat
     from ds_featurizer import simulation
     from ds_featurizer import config
